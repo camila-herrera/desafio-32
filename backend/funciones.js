@@ -27,4 +27,34 @@ const obtenerPost = async () => {
         throw new Error("No se pudieron obtener los posts.");}
 };
 
-module.exports = { agregarPost, obtenerPost };
+const eliminarPost = async (id) => {
+    try {
+        const consulta = "DELETE FROM posts WHERE id = $1";
+        const values = [id];
+        const result = await pool.query(consulta, values);
+        if (result.rowCount === 0) {
+            throw new Error("No se encontró un post con el ID proporcionado.");
+        }
+        console.log("Post eliminado con éxito");
+    } catch (error) {
+        console.error("Error al eliminar el post:", error.message);
+        throw new Error("No se pudo eliminar el post.");
+    }
+};
+
+const actualizarLikes = async (id) => {
+    try {
+        const consulta = "UPDATE posts SET likes = likes + 1 WHERE id = $1";
+        const values = [id];
+        const result = await pool.query(consulta, values);
+        if (result.rowCount === 0) {
+            throw new Error("No se encontró un post con el ID proporcionado.");
+        }
+        console.log("Likes actualizados con éxito");
+    } catch (error) {
+        console.error("Error al actualizar los likes:", error.message);
+        throw new Error("No se pudieron actualizar los likes.");
+    }
+};
+
+module.exports = { agregarPost, obtenerPost, eliminarPost, actualizarLikes };

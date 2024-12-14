@@ -1,4 +1,4 @@
-const { agregarPost, obtenerPost } = require('./funciones');
+const { agregarPost, obtenerPost, eliminarPost, actualizarLikes } = require('./funciones');
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -24,3 +24,23 @@ app.post("/posts", async (req, res) => {
         console.error(error);
         res.status(500).send("Error al agregar el post.");}}
 );
+
+app.delete("/posts/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        await eliminarPost(id);
+        res.status(200).send("Post eliminado con éxito.");
+    } catch (error) {
+        res.status(500).send("Error al eliminar el post: " + error.message);
+    }
+});
+
+app.put("/posts/like/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        await actualizarLikes(id);
+        res.status(200).send("Likes actualizados con éxito.");
+    } catch (error) {
+        res.status(500).send("Error al actualizar los likes: " + error.message);
+    }
+});

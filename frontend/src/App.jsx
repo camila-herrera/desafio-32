@@ -11,12 +11,12 @@ function App() {
   const [descripcion, setDescripcion] = useState("");
   const [posts, setPosts] = useState([]);
 
-  const getPosts = async () => {
+const getPosts = async () => {
     const { data: posts } = await axios.get(urlBaseServer + "/posts");
     setPosts([...posts]);
   };
 
-  const agregarPost = async () => {
+const agregarPost = async () => {
     if (!titulo || !imgSrc || !descripcion) {
         alert("Todos los campos son obligatorios.");
         return;
@@ -31,15 +31,12 @@ function App() {
     }
 };
 
-
-  // este método se utilizará en el siguiente desafío
-  const like = async (id) => {
+const like = async (id) => {
     await axios.put(urlBaseServer + `/posts/like/${id}`);
     getPosts();
   };
 
-  // este método se utilizará en el siguiente desafío
-  const eliminarPost = async (id) => {
+const eliminarPost = async (id) => {
     await axios.delete(urlBaseServer + `/posts/${id}`);
     getPosts();
   };
